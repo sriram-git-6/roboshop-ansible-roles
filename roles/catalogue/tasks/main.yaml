@@ -1,0 +1,38 @@
+# I need to refer nodejs tasks in common folder
+# catalogue is one role
+# common is also another role
+# I need to import a task nodejs.yaml in catalogue
+
+- name: Install NodeJS
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs
+
+- name: SetUp Application
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: install dependencies
+  ansible.builtin.command: npm install
+  args:
+    chdir: /app
+
+- name: Load Schema
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: load-mongo-schema
+
+- name: Start application
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup
+
+
+# ansible-playbook -i inventory -e ansible_user=centos -e ansible_password=DevOps321 -e component=catalogue main.yaml
+
+# after executing the above command first ansible runs main.yaml and from there it comes to catalogue folder and runs 
+
+# main.yaml in tasks folder and any common folder is reffered here it will go to common folder and runs the main.yaml present 
+
+# in common.

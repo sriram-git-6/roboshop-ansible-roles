@@ -1,0 +1,9 @@
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+
+# It is always mandatory to restart the nginx after doing the configuration changes.
+
+# So how nginx will know itself to restart when the configuration changes, is using handlers.
